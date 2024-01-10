@@ -115,7 +115,8 @@ extension FCM {
         return getAccessToken().flatMap { accessToken -> EventLoopFuture<ClientResponse> in
             var headers = HTTPHeaders()
             headers.bearerAuthorization = .init(token: accessToken)
-            
+            headers.add(name: "access_token_auth", value: "true")
+            print("Batch import headers", headers)
             return self.client.post(URI(string: url), headers: headers) { (req) in
                 struct Payload: Content {
                     let application: String
